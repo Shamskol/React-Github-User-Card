@@ -1,26 +1,69 @@
 import React from 'react';
-import logo from './logo.svg';
+import axios from "axios";
 import './App.css';
+import GitHubUser from './components/GitHubUser';
 
-function App() {
+class App extends React.Component {
+
+  constructor(props) {
+  super(props);
+  this.state = {
+  data: [],
+  followers: []
+
+  };
+  }
+  componentDidMount() {
+    axios
+      .get("https://api.github.com/users/Shamskol")
+
+      .then(response => {
+        this.setState({ data: response.data });
+        console.log(this.state.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get("https://api.github.com/users/Shamskol/followers")
+    .then(res => {
+        this.setState({ followers: res.data });
+        console.log(this.state.followers);
+      })
+      .catch(err => {
+        alert(err.response.data.message);
+      });
+  }
+
+  render(){
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <GitHubUser data={this.state.data}/>
+         
+    <div>
+    {this.state.followers.map(follower => {
+      return ( 
+        <div>
+        <img src={follower.avatar_url} alt="github photo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          
+          UserName:
+          {follower.login}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <p>id :{follower.id}</p>
+
+        <p>email: {follower.email}</p>
+        <p>Following: {follower.following}</p>
+        <p>Followers: {follower.followers}</p>
+        </div>
+      );
+    })}
+    </div>
     </div>
   );
 }
-
+}
 export default App;
