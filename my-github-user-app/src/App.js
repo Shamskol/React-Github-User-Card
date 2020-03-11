@@ -2,18 +2,19 @@ import React from 'react';
 import axios from "axios";
 import './App.css';
 import GitHubUser from './components/GitHubUser';
-
+import styled from "styled-components";
 class App extends React.Component {
 
   constructor(props) {
   super(props);
   this.state = {
-  data: [],
+  data: "",
   followers: []
 
   };
   }
   componentDidMount() {
+
     axios
       .get("https://api.github.com/users/Shamskol")
 
@@ -40,6 +41,7 @@ class App extends React.Component {
   render(){
 
   return (
+  <StyledDiv>
     <div className="App">
       <GitHubUser data={this.state.data}/>
          
@@ -48,14 +50,11 @@ class App extends React.Component {
       return ( 
         <div>
         <img src={follower.avatar_url} alt="github photo" />
-        <p>
-          
+        <h1>
           UserName:
           {follower.login}
-        </p>
+        </h1>
         <p>id :{follower.id}</p>
-
-        <p>email: {follower.email}</p>
         <p>Following: {follower.following}</p>
         <p>Followers: {follower.followers}</p>
         </div>
@@ -63,7 +62,29 @@ class App extends React.Component {
     })}
     </div>
     </div>
+    </StyledDiv>
   );
 }
 }
+const StyledDiv  = styled.div`
+.App {
+  background: gray;
+  margin: 0 300px;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+}
+
+p {
+  text-align: center;
+  color: white
+}
+
+`;
+
+
+
+
 export default App;

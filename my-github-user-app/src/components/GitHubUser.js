@@ -4,25 +4,21 @@ import React from "react";
 class GitHubUser extends React.Component {
 
 
-
     render() {
 
     return(
  
         <div>
     <img src={this.props.data.avatar_url} alt="github photo"/>
-<p> UserName: 
+<h1> UserName: 
   {this.props.data.login  }
-</p>
+</h1>
 <p>
  id :
 {this.props.data.id} 
 
 </p>
 
-<p>
- email: {this.props.data.email} 
-</p>
 <p>
  Following: {this.props.data.following} 
 </p>
